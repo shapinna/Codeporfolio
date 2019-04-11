@@ -2,10 +2,566 @@
 title: "Visualization R cheatsheet"
 author: "Shanmukh"
 date: "April 10, 2019"
-output: html_document
+output:
+  html_document:
+    toc: TRUE
+    toc_depth: 2
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Base R Visualizations
+
+# Data visualization in R
+```{r}
+str(mtcars)
+ss_mt<- mtcars[,c(1,3,5)]
+plot(ss_mt)
+```
+
+#### Scatter plot
+Syntax:  Plot(yvariable~Xvariable, data= data)
+
+```{r echo=FALSE, warning=FALSE, message = FALSE} 
+library(MASS)
+
+plot(medv~rm,data=Boston)
+
+sunflowerplot(tax~rad,data=Boston)
+
+boxplot(crim~rad,data=Boston,log="y",las=1,varwidth=TRUE,
+        xlab="rad",
+main ="Variation of boston crime values over discrete rad values")
+
+mosaicplot(cyl~gear,data=mtcars, main="Mosaic plot")
+
+
+
+```
+
+```{r}
+# Set up a side-by-side plot array
+par(mfrow=c(1,2))
+
+# Create the standard scatterplot
+plot(rad~zn,data=Boston)
+
+# Add the title
+title("Standard scatterplot")
+
+# Create the sunflowerplot
+sunflowerplot(rad~zn,data=Boston)
+
+# Add the title
+title("Sunflower plot")
+```
+#### Bagplots : two dimensional box plots
+
+```{r}
+library(aplpack)
+par(mfrow=c(1,2))
+boxplot(Cars93$Min.Price,Cars93$Max.Price)
+bagplot(Cars93$Min.Price,Cars93$Max.Price,cex=1.2)
+abline(a=0,b=1,lty=2)
+
+```
+
+
+
+
+#### correlation plots
+syntax: corrplot(cor(dataset),method="ellipse")
+```{r}
+library(corrplot)
+cor(mtcars)
+
+corrplot(cor(mtcars),method="ellipse")
+
+
+```
+
+
+```{r}
+
+# Set up a 2-by-2 plot array
+par(mfrow=c(2,2))
+
+index<- which(ChickWeight$Time==16)
+
+# Plot the Animals2 brain weight data as points
+plot(ChickWeight$weight[index], type="p")
+
+# Add the title
+title("points")
+
+# Plot the brain weights with lines
+plot(ChickWeight$weight[index],type="l")
+
+# Add the title
+title("lines")
+
+# Plot the brain weights as lines overlaid with points
+plot(ChickWeight$weight[index],type="o")
+
+# Add the title
+title("overlaid")
+
+# Plot the brain weights as steps
+plot(ChickWeight$weight[index],type="s")
+
+# Add the title
+title("steps")
+```
+
+```{r}
+# Create MPG.city vs. Horsepower plot with solid squares
+plot(MPG.city~Horsepower,data=Cars93,pch=15)
+
+#plot(ChickWeight$weight[index], type="p")
+
+# Create index3, pointing to 3-cylinder cars
+index3=which(Cars93$Cylinders==3)
+
+# Add text giving names of cars next to data points
+text(x =Cars93$Horsepower[index3] , 
+     y =Cars93$MPG.city[index3] ,
+     labels = Cars93$Make[index3], adj = 0)
+```
+```{r}
+# Plot MPG.city vs. Horsepower as open circles
+plot(MPG.city~Horsepower,data=Cars93)
+
+# Create index3, pointing to 3-cylinder cars
+index3 = which(Cars93$Cylinders==3)
+
+# Highlight 3-cylinder cars as solid circles
+points(Cars93$Horsepower[index3], Cars93$MPG.city[index3],pch=16)
+
+# Add car names, offset from points, with larger bold text
+text(Cars93$Horsepower[index3], Cars93$MPG.city[index3],label=Cars93$Make[index3],adj=-0.2,cex=1.2,font=2)
+```
+```{r}
+# Plot Gas vs. Temp as solid triangles
+plot(Gas~Temp,data=whiteside,pch=17)
+
+# Create indexB, pointing to "Before" data
+indexB<- which(whiteside$Insul=="Before")
+
+# Create indexA, pointing to "After" data
+indexA<- which(whiteside$Insul=="After")
+
+# Add "Before" text in blue, rotated 30 degrees, 80% size
+text(x = whiteside$Temp[indexB], y = whiteside$Gas[indexB],
+     labels = "Before", col = "blue", srt = 30, cex = 0.8)
+
+# Add "After" text in red, rotated -20 degrees, 80% size
+text(x = whiteside$Temp[indexA], y = whiteside$Gas[indexA],
+     labels = "After", col = "red", srt = -20, cex = 0.8)
+```
+```{r}
+# Set up and label empty plot of Gas vs. Temp
+plot(whiteside$Temp,whiteside$Gas,
+     type = "n", xlab ="Outside temperature",
+     ylab = "Heating gas consumption")
+
+# Create indexB, pointing to "Before" data
+indexB <- which(whiteside$Insul=="Before")
+
+# Create indexA, pointing to "After" data
+indexA <- which(whiteside$Insul=="After")
+
+# Add "Before" data as solid triangles
+points(whiteside$Temp[indexB],whiteside$Gas[indexB],pch=17)
+
+# Add "After" data as open circles
+points(whiteside$Temp[indexA],whiteside$Gas[indexA],pch=1)
+
+# Add legend that identifies points as "Before" and "After"
+legend("topright", pch =c(17,1), 
+       legend = c("Before", "After"))
+```
+
+```{r}
+library(MASS)
+
+# Create a boxplot of sugars by shelf value, without axes
+boxplot(sugars~shelf,data=UScereal,axes=FALSE)
+
+# Add a default y-axis to the left of the boxplot
+axis(side =2,at=UScereal$sugars, labels=as.character(UScereal$sugars))
+
+# Add an x-axis below the plot, labelled 1, 2, and 3
+axis(side = 1, at = 1:3, labels=c(1,2,3))
+
+# Add a second x-axis above the plot
+  axis(side = 3, at = 1:3,
+       labels = c("floor","middle","top"))
+
+#is.factor(UScereal$shelf)
+
+#str(UScereal)
+```
+
+```{r}
+# Create a scatterplot of MPG.city vs. Horsepower
+plot(Cars93$Horsepower,Cars93$MPG.city)
+
+# Call supsmu() to generate a smooth trend curve, with default bass
+trend1<-supsmu( Cars93$Horsepower,Cars93$MPG.city,  bass=0)
+
+# Add this trend curve to the plot
+lines(trend1)
+
+# Call supsmu() for a second trend curve, with bass = 10
+trend2 <- supsmu( Cars93$Horsepower,Cars93$MPG.city,  bass=10)
+
+# Add this trend curve as a heavy, dotted line
+lines(trend2,lty=3,lwd=2)
+```
+
+```{r}
+
+# Create mfr_table of manufacturer frequencies
+mfr_table <- table(Cars93$Manufacturer)
+
+# Create the default wordcloud from this table
+wordcloud(words = names(mfr_table), 
+          freq = as.numeric(mfr_table), 
+          scale = c(2,0.25))
+
+# Change the minimum word frequency
+wordcloud(words = names(mfr_table), 
+          freq = as.numeric(mfr_table), 
+          scale = c(2,0.25), 
+          min.freq = 3)
+
+# Create model_table of model frequencies
+model_table <- table(Cars93$Model)
+
+# Create the wordcloud of all model names with smaller scaling
+wordcloud(words = names(model_table), 
+          freq = as.numeric(model_table), 
+          scale = c(0.75, 0.25), 
+          min.freq = 1)
+
+```
+```{r}
+# Create row1, row2, and layoutVector
+row1 <- c(1,0,0)
+row2 <- c(0,2,2)
+layoutVector <- c(row1,row2,row2)
+
+# Convert layoutVector into layoutMatrix
+layoutMatrix <- matrix(layoutVector, byrow = TRUE, nrow = 3)
+
+# Set up the plot array
+layout(layoutMatrix)
+
+# Plot scatterplot
+plot(Boston$rad,Boston$zn)
+
+# Plot sunflower plot
+sunflowerplot(Boston$rad,Boston$zn)
+```
+
+
+```{r}
+# Create a table of Cylinders frequencies
+tbl <- table(Cars93$Cylinders)
+
+# Generate a horizontal barplot of these frequencies
+mids <- barplot(tbl, horiz = TRUE, col = "transparent",
+                names.arg = "")
+
+# Add names labels with text()
+text(20, mids, names(tbl))
+
+# Add count labels with text()
+text(35, mids, as.numeric(tbl))
+```
+
+```{r}
+# Call symbols() to create the default bubbleplot
+symbols(Cars93$Horsepower,Cars93$MPG.city,
+        circles = Cars93$Price)
+
+# Repeat, with the inches argument specified
+symbols(Cars93$Horsepower,Cars93$MPG.city,
+        circles = Cars93$Price,
+        inches = 0.1)
+```
+
+```{r}
+# Call png() with the name of the file we want to create
+png("bubbleplot.png")
+
+# Re-create the plot from the last exercise
+symbols(Cars93$Horsepower, Cars93$MPG.city,
+        circles = sqrt(Cars93$Price),
+        inches = 0.1)
+
+# Save our file and return to our interactive session
+dev.off()
+
+# Verify that we have created the file
+list.files(pattern = "png")
+```
+
+```{r}
+# Iliinsky and Steele color name vector
+IScolors <- c("red", "green", "yellow", "blue",
+              "black", "white", "pink", "cyan",
+              "gray", "orange", "brown", "purple")
+
+# Create the data for the barplot
+barWidths <- c(rep(2, 6), rep(1, 6))
+
+# Recreate the horizontal barplot with colored bars
+barplot(rev(barWidths), horiz = TRUE,
+        col = rev(IScolors), axes = FALSE,
+        names.arg = rev(IScolors), las = 1)
+
+```
+```{r}
+# Iliinsky and Steele color name vector
+IScolors <- c("red", "green", "yellow", "blue",
+              "black", "white", "pink", "cyan",
+              "gray", "orange", "brown", "purple")
+
+# Create the `cylinderLevels` variable
+cylinderLevels<- Cars93$Cylinders
+
+# Create the colored bubbleplot
+symbols(Cars93$Horsepower,Cars93$MPG.city, 
+        circles = cylinderLevels, inches = 0.2, 
+        bg = IScolors[cylinderLevels])
+```
+
+```{r}
+# Create a table of Cylinders by Origin
+tbl <- table(Cars93$Cylinders,Cars93$Origin)
+
+# Create the default stacked barplot
+barplot(tbl,names.arg=names(tbl))
+
+
+# Enhance this plot with color
+barplot(tbl,names.arg=names(tbl),col=IScolors)
+```
+
+
+
+# ggplot
+
+Install **ggplot2** package
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+
+library(ggplot2)
+mpg
+
+```
+ggplot syntax
+ggployt(data= DATA)+
+<GEOM_FUNCTION>(mapping= aes(MAPPING))
+```{r}
+ggplot(mpg)+
+  geom_point(mapping = aes(x=displ,y=hwy,color=class))
+```
+
+```{r}
+ggplot(mpg)+
+  geom_point(mapping=aes(x=hwy,y=cyl))
+```
+
+```{r}
+ggplot(mpg)+
+  geom_point(mapping = aes(x=displ,y=hwy,size=class))
+
+ggplot(mpg)+
+  geom_point(mapping = aes(x=displ,y=hwy,alpha=class))
+
+ggplot(mpg)+
+  geom_point(mapping = aes(x=displ,y=hwy,shape=class))
+
+ggplot(mpg)+
+  geom_point(mapping = aes(x=displ,y=hwy),color="blue")
+```
+# Facets
+
+Facets is particular useful for categorical variable, it is used to split the plot in to subplots each display subset of data
+
+Facet_wrap: first argument in facetwrap should be a formula which is created by ~ and a variable
+
+Facet_grid: Facet grid should contain two ariable names separated by ~
+```{r}
+ggplot(mpg)+
+  geom_point(mapping = aes(x=displ,y=hwy))+
+  facet_wrap(~class,nrow = 2)
+
+ggplot(mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy))+
+  facet_grid(drv~cyl)
+
+ggplot(mpg)+
+  geom_point(mapping=aes(x=drv,y=cyl))
+
+
+```
+# Geom objects
+Geom is a geometrical object that a plot uses to represent data
+
+bar charts use bar geioms
+line charts use line geoms box plots use box plot geom
+
+```{r}
+ggplot(mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy))
+
+ggplot(mpg)+
+  geom_smooth(mapping=aes(x=displ,y=hwy))
+
+ggplot(mpg)+
+  geom_smooth(mapping=aes(x=displ,y=hwy,linetype=drv))
+
+ggplot(mpg)+
+  geom_smooth(mapping=aes(x=displ,y=hwy,group=drv))
+
+ggplot(mpg)+
+  geom_smooth(mapping=aes(x=displ,y=hwy,color=drv),
+              show.legend = FALSE)
+
+```
+# multiple geoms in single graph
+```{r}
+ggplot(mpg)+
+  geom_point(mapping = aes(x=displ,y=hwy))+
+  geom_smooth(mapping=aes(x=displ,y=hwy))
+
+ggplot(data=mpg,mapping=aes(x=displ,y=hwy))+
+  geom_point()+
+  geom_smooth()
+
+# extend mapping in each geom
+ggplot(data=mpg,mapping=aes(x=displ,y=hwy))+
+  geom_point(mapping = aes(color=class))+
+  geom_smooth()
+
+# filter data only for a geom
+ggplot(data=mpg,mapping=aes(x=displ,y=hwy))+
+  geom_point(mapping = aes(color=class))+
+  geom_smooth(data=filter(mpg,class=="subcompact"),se=FALSE)
+
+
+ggplot(mpg, aes(x = displ, y = hwy)) +
+ geom_point() +
+ geom_point(data = filter(mpg, class=="2seater"), color = 'red')
+
+```
+# statistical transformations
+
+```{r}
+ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut))
+
+## bar chart with proportion
+ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut,y=..prop..,group=1))
+
+## summary stat
+
+ggplot(data=diamonds)+
+  stat_summary(mapping=aes(x=cut,y=depth),
+               fun.ymin = min,
+               fun.ymax = max,
+               fun.y=median)
+
+```
+# position adjustments
+```{r}
+ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut,color=cut))
+
+ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut,fill=cut))
+
+ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut,fill=clarity))
+
+# position fill works a proportion across groups
+ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut,fill=clarity),position="fill")
+
+# position dodge places overlapping objects directly beside one another
+
+ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut,fill=clarity),position="dodge")
+
+```
+# coordinate system
+
+Default coordinate system in ggplot is cartesian coordinate system where x and y positions act independently
+
+
+-coordflip switches x and y axes
+```{r}
+
+ggplot(data=mpg,mapping=aes(x=class,y=hwy))+
+  geom_boxplot()
+
+ggplot(data=mpg,mapping=aes(x=class,y=hwy))+
+  geom_boxplot()+
+  coord_flip()
+
+
+```
+
+ggplot(data=nz,aes(long,lat,group=group))+
+  geom_polygon(fill="white",color="black")+
+  coord_quickmap()
+
+
+
+
+```{r}
+bar <- ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut,fill=cut),show.legend = FALSE,
+           width=1)+
+  theme(aspect.ratio = 1)+
+  labs(x=NULL,y=NULL)
+
+bar+coord_flip()
+bar+coord_polar()
+```
+ggplot syntax
+ggployt(data= DATA)+
+<GEOM_FUNCTION>(mapping= aes(MAPPING),
+stat=<STAT>,
+position=<POSITION>)+
+<COORDINATE_FUNCTION>+
+<FACET_FUNCTION>
+
+
+```{r}
+
+
+
+# Create the basic plot (not displayed): basePlot
+basePlot <- ggplot(Cars93, aes(x = Horsepower, y = MPG.city))
+
+# Display the basic scatterplot
+basePlot + 
+  geom_point()
+
+# Color the points by Cylinders value
+basePlot + 
+  geom_point(color= IScolors[Cars93$Cylinders])
+
+# Make the point sizes also vary with Cylinders value
+basePlot + 
+  geom_point(color = IScolors[Cars93$Cylinders], 
+             size = as.numeric(Cars93$Cylinders))
+```

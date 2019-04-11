@@ -2,10 +2,94 @@
 title: "Analysis"
 author: "Shanmukh"
 date: "April 10, 2019"
-output: html_document
+output:
+  html_document:
+    toc: TRUE
+    toc_depth: 2
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Regression
+```{r}
+mdl <- lm(mpg ~ hp, data = mtcars)
+
+mdl
+
+plot(mtcars$mpg~mtcars$hp,
+     col="darkblue",pch=18,
+     ylab="mpg",
+     xlab="hp")
+abline(mdl,lwd=2,col="red")
+
+mdl1 <- lm(mpg ~ hp+am, data = mtcars)
+
+summary(mdl1)
+
+plot(mdl1$residuals~mdl1$fitted.values,main="Residuals vs Predicted Values")
+abline(h=0,col="red",lty=2,lwd=2) 
+
+library(car)
+ncvTest(mdl1)
+
+bptest(mdl1)
+
+hist(mdl1$residuals,col="grey75",main="Distribution of Residuals")
+curve(dnorm(x,mean(mdl1$residuals),sd(mdl1$residuals)),add=T,col="red")
+
+plot(mdl1,which=4)
+
+# cooks distance
+
+cd_mdl1<-cooks.distance(mdl1)
+
+sum(cd_mdl1 > 4 / length(cd_mdl1))
+
+
+residuals(mdl1)
+fitted(mdl1)
+
+```
+```{r}
+str(ChickWeight)
+
+# Get the 16-week chick weights
+weights <- (ChickWeight$weight[ChickWeight$Time==16])
+
+library(MASS)
+# Plot the normalized histogram
+truehist(weights)
+# Add the density curve to the histogram
+lines(density(weights))
+
+library(car)
+qqPlot(weights)
+
+qqPlot(Boston$tax)
+
+```
+
+# Build a linear regression model for the whiteside data
+```{r}
+linear_model <-lm(Gas~Temp,data=whiteside)
+
+whiteside$Temp
+
+fitted(linear_model)
+
+linear_model$fitted.values
+
+lm(Gas~Temp,data=whiteside)
+
+summary(linear_model)
+
+# Create a Gas vs. Temp scatterplot from the whiteside data
+plot(Gas~Temp,data=whiteside)
+
+# Use abline() to add the linear regression line
+abline(linear_model,lty=2)
 ```
 
