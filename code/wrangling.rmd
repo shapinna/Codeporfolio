@@ -151,7 +151,7 @@ messy2_g %>%
 
 **billboard tibble**
 ```{r echo=FALSE}
-billboard <- read.csv("C:/Main/Shanmukh/MS/Indiana university/applied data science/data/v59i10-data/billboard.csv", header=TRUE)
+billboard <- read.csv("https://raw.githubusercontent.com/shapinna/Codeporfolio/master/Data/billboard.csv", header=TRUE)
 
 billboard_tbl <- as_tibble(billboard)
 
