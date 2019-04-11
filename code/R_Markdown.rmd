@@ -1,0 +1,58 @@
+---
+title: "RMarkdown cheatsheet"
+author: "Shanmukh"
+date: "April 10, 2019"
+output:
+  html_document:
+    toc: TRUE
+    toc_depth: 2
+    df_print: paged
+---
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. 
+
+
+
+Rmarkdown syntax
+
+* `**Bold**`for **Bold**
+* `[link](http://rmarkdown.rstudio.com)` for link to website http://rmarkdown.rstudio.com
+* `verbatim code` for verbatim code
+* `*italics*` for *italics*
+* `~~strikethrough~~` for ~~strikethrough~~ 
+* `# Header1 {#anchor}` for Header1
+* `## Header2` for level2 header
+* `### Header3` for level3 header
+* `* unordered list
+      + sub-item 1
+      + sub-item 2
+        - sub-sub-item 1` for
+  + unordered list
+    - sub-item 1
+* `- slide bullet` for bullet
+* `equation: $A = \pi*r^{2}$` for equation: $A = \pi*r^{2}$ 
+* `A footnote [^1]` for A footnote [^1] 
+* `[^1]: Here is the footnote.` for [^1]: Here is the footnote.
+
+[^1]: Here is the footnote.
+
+*Referred from Rmarkdown cheatsheet*
+[Link](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r}
+summary(cars)
+```
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+

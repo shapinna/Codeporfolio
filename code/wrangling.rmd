@@ -1,5 +1,5 @@
 ---
-title: "Code Protfolio R Cheat sheet"
+title: "Wrangling R cheat sheet"
 author: "Shanmukh"
 date: "April 8, 2019"
 output:
@@ -16,42 +16,31 @@ library(tidyverse)
 library(readr)
 ```
 
-## R Markdown
+# Tibble
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+- A tibble, or tbl_df, is a modern reimagining of the data.frame
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+- Tibbles are printer friendly, which makes them easier to use with large datasets containing complex objects.
 
+- Tibble shows first 10 rows and all columns fit to the screen
 
-Rmarkdown syntax
+- Tibble never changes the type of the inputs (e.g. it never converts strings to factors!)
 
-* `**Bold**`for **Bold**
-* `[link](http://rmarkdown.rstudio.com)` for link to website http://rmarkdown.rstudio.com
-* `verbatim code` for verbatim code
-* `*italics*` for *italics*
-* `~~strikethrough~~` for ~~strikethrough~~ 
-* `# Header1 {#anchor}` for Header1
-* `## Header2` for level2 header
-* `### Header3` for level3 header
-* `* unordered list
-      + sub-item 1
-      + sub-item 2
-        - sub-sub-item 1` for
-  + unordered list
-    - sub-item 1
-* `- slide bullet` for bullet
-* `equation: $A = \pi*r^{2}$` for equation: $A = \pi*r^{2}$ 
-* `A footnote [^1]` for A footnote [^1] 
-* `[^1]: Here is the footnote.` for [^1]: Here is the footnote.
+- Tibble never changes the names of variables
 
-[^1]: Here is the footnote.
+* syntax to convert dataframe to tibble
 
-*Referred from Rmarkdown cheatsheet*
-[Link](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+  - `as_tibble(dataframe)` converts dataframe to tibble
 
+* syntax to convert tibble to dataframe
+  - `as.data.frame(tibble)` converts tibble to dataframe
 
-```{r cars}
-
+**dataframe**
+```{r }
+class(iris) # verify class of iris dataset
+iris_tbl<-as_tibble(iris) # Converting dataframe to tibble data set
+class(iris_tbl) # verify class of tibble dataset
+glimpse(iris_tbl) # provide structure of tibble similar to str(dataframe)
 ```
 
 # Data Transformation
@@ -85,7 +74,7 @@ messy
 
 ```{r}
 # gather function used to move column a & b in to drug and all values to column heart rate
-
+# Option1
 messy %>% gather(`a`,`b`,key=drug,value=hear_rate)
 
 # Option2
@@ -120,15 +109,6 @@ messy2_g<-messy_2 %>%
 # view messy2_g dataframe
 messy2_g
 ```
-## separate
-
-- seprate function teases variables apart by using splitting patterns
-
-```{r}
-# separate function used to split location in to location and ti with separater .
-messy2_g %>% 
-    separate(location, into = c("location", "ti"), sep = "\\.")
-```
 **messy3 dataframe**
 ```{r echo=FALSE}
 
@@ -140,7 +120,7 @@ count = c(745,19987071,2666,20595360)
 messy3
 ```
 
-### spread
+## spread
 - transforms a long table into a wide table
 ```{r}
 # spread function used to move cases and population to separate columns and count column will be values for the cases and population column
@@ -148,33 +128,18 @@ messy3 %>%
   spread(key =type, value=count)
 
 ```
-  
-## Tibble
+## separate
 
-- A tibble, or tbl_df, is a modern reimagining of the data.frame
+- seprate function teases variables apart by using splitting patterns
 
-- Tibbles are printer friendly, which makes them easier to use with large datasets containing complex objects.
-
-- Tibble shows first 10 rows and all columns fit to the screen
-
-- Tibble never changes the type of the inputs (e.g. it never converts strings to factors!)
-
-- Tibble never changes the names of variables
-
-* syntax to convert dataframe to tibble
-
-  - `as_tibble(dataframe)` converts dataframe to tibble
-
-* syntax to convert tibble to dataframe
-  - `as.data.frame(tibble)` converts tibble to dataframe
-
-**dataframe**
-```{r }
-class(iris) # verify class of iris dataset
-iris_tbl<-as_tibble(iris) # Converting dataframe to tibble data set
-class(iris_tbl) # verify class of tibble dataset
-glimpse(iris_tbl) # provide structure of tibble similar to str(dataframe)
+```{r}
+# separate function used to split location in to location and ti with separater .
+messy2_g %>% 
+    separate(location, into = c("location", "ti"), sep = "\\.")
 ```
+
+  
+
 # Data Manipulation
 
 * The dplyr package contains five key data manipulation functions, also called verbs:
@@ -201,20 +166,63 @@ billboard_tbl
 ```{r}
 # select only few columns from the tibble.
 
-billboard_sel <- billboard_tbl %>%
+billboard_tbl %>%
   select(year,artist.inverted,track,time,genre)
 
-billboard_sel
+
+```
+## filter() 
+- returns a subset of the rows
+
+```{r warning=FALSE}
+billboard_rock <-billboard_tbl %>%
+filter(genre=="Rock")
+
+billboard_rock
+
+```
+## arrange() 
+- reorders the rows according to single or multiple variables
+```{r}
+billboard %>%
+arrange(desc(date.entered))
+```
+## mutate()
+- used to add columns from existing data
+```{r}
+billboard %>%
+  separate(time, into=c("hours","minutes"),sep=":",convert = TRUE) %>%
+  mutate(new_mins=hours*60)
+
+```
+**who** dataset  
+```{r}
+head(who) # top five records of who dataset
 
 ```
 
+```{r}
+# gather transforms the wide data to long data
+# mutate change the values of the types for newrel to new_rel
+# arrange sorts the data based on cases
+# separate the type data in to three columns col1, method and sexage
 
-## Including Plots
+new_who <- who %>%
+  gather(key="Types",value = "Cases",new_sp_m014:newrel_f65,na.rm = TRUE)%>%
+  mutate(Types=stringr::str_replace(Types, "newrel","new_rel"))%>%
+  arrange(desc(Cases))%>%
+  separate(Types,into=c("Col1","Method","SexAge"),sep="_")
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+new_who
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## summarize()
+- which reduces each group to a single row by calculating aggregate
+```{r}
+
+new_who_group <- dplyr::group_by(new_who,Method)  # groups the data by method
+dplyr::summarize(new_who_group,count=sum(Cases))  # summarizes the data by method sum of cases
+
+```
+
