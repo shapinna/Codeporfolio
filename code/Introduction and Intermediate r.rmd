@@ -1,0 +1,568 @@
+---
+title: "Introduction and Intermediate R cheatsheet"
+author: "Shanmukh"
+date: "April 10, 2019"
+output:
+  html_document:
+    toc: TRUE
+    toc_depth: 4
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+## Introduction to R
+
+#### Arithmetic with R
+
+- Addition: +
+- Subtraction: -
+- Multiplication: *
+- Division: /
+- Exponentiation: ^
+- Modulo: %%
+
+```{r}
+# An addition
+2 + 2 
+
+# A subtraction
+2 - 2 
+
+# A multiplication
+3 * 2
+
+ # A division
+(3 + 3) / 2 
+
+# Exponentiation
+2^6
+
+# Modulo
+28 %% 5
+```
+
+
+#### Variable assignment
+
+
+```{r}
+# Assign 5 to variable X
+
+X <- 5
+
+```
+
+#### Data types in R
+
+```{r}
+class(30)  # Numeric
+class(30.5) # Numeric
+class(TRUE)# Logical
+class("Apple") # character
+
+
+```
+
+
+#### vector
+
+-Vectors (one dimensional array): can hold numeric, character or logical values. The elements in a vector all have the same data type.
+
+```{r}
+A_vector <- c(1, 2, 3)
+B_vector <- c(4, 5, 6)
+
+# Take the sum of A_vector and B_vector
+total_vector <- A_vector + B_vector
+
+
+# Adding names to vector
+
+week_vector <- c("WK1", "Wk2", "wk3")
+
+names(total_vector) <- week_vector
+
+# Print out total_vector
+total_vector
+
+```
+
+#### Matrix
+
+- a matrix is a collection of elements of the same data type (numeric, character, or logical) arranged into a fixed number of rows and columns
+
+- a matrix is called two-dimensional
+```{r}
+# Construct a matrix with vector and provide row and column labels
+
+ta <- c(1,2,3,4)
+tb <- c(5,6,7,8,9)
+tc <- c(ta,tb)
+
+tm <- matrix(tc,byrow = TRUE, nrow=3)
+
+tm  # display matrix
+```
+
+##### adding row and column labels
+
+```{r}
+tcln <- c("c1","c2","c3")
+trn <- c("r1","r2","r3")
+colnames(tm) <- tcln  # column label
+rownames(tm) <- trn   # Row label
+
+tm
+```
+
+
+
+##### adding totals to matrix rows and columns
+
+```{r}
+rtot <- rowSums(tm)
+tmr <- cbind(tm,rtot)
+tmr # with row total
+
+ctot <- colSums(tm)
+tmc <- rbind(tm,ctot)
+tmc # with column total
+
+```
+
+#### Factor
+
+```{r}
+#nominal categorical variable
+
+animals_vector <- c("Elephant", "Giraffe", "Donkey", "Horse")
+factor_animals_vector <- factor(animals_vector)
+factor_animals_vector
+
+# ordinal categorical variable
+# Temperature
+temperature_vector <- c("High", "Low", "High","Low", "Medium")
+factor_temperature_vector <- factor(temperature_vector, order = TRUE, levels = c("Low", "Medium", "High"))
+factor_temperature_vector
+```
+
+
+```{r}
+# Create speed_vector
+speed_vector <- c("medium", "slow", "slow", "medium", "fast")
+
+# Convert speed_vector to ordered factor vector
+factor_speed_vector <-factor(speed_vector,
+                             ordered= TRUE,
+                             levels = c("slow","medium","fast"))
+
+factor_speed_vector
+```
+
+
+#### List
+
+
+```{r}
+ex_list<- list(
+  a=c(1,2,3,4),
+  b= TRUE,
+  c = "Hello"
+)
+
+ex_list[1] # displays 1st value
+
+ex_list$a # display index with label a
+
+ex_list[[1]]  # dsiplay only elements of 1st indext without label name
+```
+
+
+
+
+#### Data Frame
+
+- Data frames (two-dimensional objects): can hold numeric, character or logical values. Within a column all elements have the same data type, but different columns can be of different data type.
+
+```{r}
+tdf <- data.frame(tc,cl2= 21:29,cl3=3)
+head(tdf) # top 5 rows
+tail(tdf) # Last 5 rows
+str(tdf)  # structure of data frame
+
+
+```
+
+
+
+
+
+## Intermediate R
+
+
+
+#### Relational operators
+
+- ==  Equal comparison
+- !=  Not equal comparison
+- >   Greater than comparison
+- <   Less than comparison
+- >=
+- <=
+
+```{r}
+linkedin <- c(16, 9, 13, 5, 2, 17, 14)
+facebook <- c(17, 7, 5, 16, 8, 13, 14)
+
+# Popular days
+linkedin>15
+
+# Quiet days
+linkedin<=5
+
+# LinkedIn more popular than Facebook
+linkedin>facebook
+
+```
+
+#### Logical operators
+
+- & And operator
+- Or operator
+-! Not operator
+
+```{r}
+
+# or operator
+
+linkedin<=5 | linkedin>15
+
+# & operator
+
+linkedin>=10 & linkedin<15
+
+```
+
+#### if and else if and else statement
+
+syntax: 
+if (condition1) {
+  expr1
+} else if (condition2) {
+  expr2
+} else if (condition3) {
+  expr3
+} else {
+  expr4
+}
+
+```{r}
+
+# Variables related to your last day of recordings
+medium <- "LinkedIn"
+num_views <- 14
+
+# Control structure for medium
+if (medium == "LinkedIn") {
+  print("Showing LinkedIn information")
+} else if (medium == "Facebook"){
+  # Add code to print correct string when condition is TRUE
+  print("Showing Facebook information")
+} else {
+  print("Unknown medium")
+}
+
+# Control structure for num_views
+if (num_views > 15) {
+  print("You're popular!")
+} else if (num_views <= 15 & num_views > 10) {
+  # Add code to print correct string when condition is TRUE
+  print("Your number of views is average")
+} else {
+  print("Try to be more visible!")
+}
+
+
+```
+
+#### while loop
+
+syntax:
+while (condition) {
+  expr
+}
+
+```{r}
+
+i <- 1
+
+# Code the while loop
+while (i <= 10) {
+  print(3*i)
+  if (3*i%%8==0 ) {
+    break
+  }
+  i <- i + 1
+}
+
+
+```
+
+#### For Loop with break
+
+```{r}
+# Pre-defined variables
+rquote <- "r's internals are irrefutably intriguing"
+chars <- strsplit(rquote, split = "")[[1]]
+
+# Initialize rcount
+rcount <- 0
+
+# Finish the for loop
+for (char in chars) {
+  if(char=="r"){
+    rcount<- rcount+1
+  }
+  else if (char=="a"){
+  break
+}
+
+# Print out rcount
+print(rcount)
+}
+```
+
+
+#### Functions
+input -- process -- output
+
+
+Syntax for creating functions
+
+my_func <- function(arg1,arg2){
+  body
+}
+
+```{r}
+# Create a function pow_two()
+pow_two <- function(a){
+  y<-a*a
+  return(y)
+}
+
+
+# Use the function
+pow_two(12)
+
+# Create a function sum_abs()
+sum_abs<- function(a,b){
+  y<-abs(a)+abs(b)
+  return(y)
+}
+
+
+# Use the function
+sum_abs(-2,3)
+```
+
+
+#### loading R package
+
+- install.packages(), which as you can expect, installs a given package.
+- library() which loads packages, i.e. attaches them to the search list on your R workspace.
+
+```{r}
+library(MASS)
+# Check out the currently attached packages again
+search()
+```
+
+#### strsplit
+syntax: strsplit(x, split, fixed = FALSE, perl = FALSE, useBytes = FALSE)
+```{r}
+pioneers <- c("GAUSS:1777", "BAYES:1702", "PASCAL:1623", "PEARSON:1857")
+split_math <- strsplit(pioneers, split = ":")
+split_math
+```
+
+#### lapply
+
+lapply takes a vector or list X, and applies the function FUN to each of its members. If FUN requires additional arguments, you pass them after you've specified X and FUN (...). The output of lapply() is a list, the same length as X, where each element is the result of applying FUN on the corresponding element of X.
+```{r}
+split_low <- lapply(split_math,tolower)
+
+split_low
+
+pioneers <- c("GAUSS:1777", "BAYES:1702", "PASCAL:1623", "PEARSON:1857")
+split <- strsplit(pioneers, split = ":")
+split_low <- lapply(split, tolower)
+
+# Generic select function
+select_el <- function(x, index) {
+  x[index]
+}
+
+# Use lapply() twice on split_low: names and years
+names<- lapply(split_low,select_el,1)
+years<- lapply(split_low,select_el,2)
+
+names
+years
+
+```
+
+#### sapply
+
+simplified version of sapply it will try to generate to array if possible otherwise leave as list
+
+```{r}
+
+l1 <- list(c(3,7,9,6,-1))
+l2 <- list(c(6,9,12,13,5))
+
+temp <-c(l1,l2)
+
+
+# Use lapply() to find each day's minimum temperature
+lapply(temp,min)
+
+# Use sapply() to find each day's minimum temperature
+sapply(temp,min)
+
+# Use lapply() to find each day's maximum temperature
+lapply(temp,max)
+
+# Use sapply() to find each day's maximum temperature
+sapply(temp,max)
+
+
+```
+
+##### vapply
+same as sapply but output can be specified
+Vapply throws error if the expected output is not returned
+
+#### R functions
+
+* abs -- calculates absolute value of numerical values
+
+* round -- rounds the integers.
+
+* sum -- sums up all the given values
+
+* c -- Combines two or more specific values
+
+* mean -- calculate mean of the values
+```{r}
+v1 <- c(1.1,-5.1,2.5,-6.4)
+v2 <- c(3.1,2.3,-6.1,-9.9)
+
+sum(round(abs(v1)))
+sum(round(abs(v2)))
+
+mean(c(sum(round(abs(v1))),sum(round(abs(v2)))))
+
+```
+
+* seq -- sequence of numbers generated by r by parameters given in the argument
+
+* rep -- repeats the values
+
+* sort -- sort the values
+
+```{r}
+li <- list(
+  log = TRUE,
+  ch = "hello",
+  int_vec = sort(rep(seq(8,2, by=-2),times=2))
+)
+
+str(li)
+```
+
+* is.*() -- check whether given variable of same data type and returns result in  logical value
+
+* as.*()-- converts the data type
+
+* unlist() -- unlist the list function to a vector with lables
+
+```{r}
+is.list(li)
+
+is.list(c(1,2,3))
+
+li2 <- as.list(c(1,2,3))
+
+is.list(li2)
+
+unlist(li)
+
+```
+* append-- allows to add elements to vector or a list 
+* rev -- reverses elements in a data structure
+
+```{r}
+str(append(li,rev(li)))
+
+```
+
+
+#### Times and dates
+
+```{r}
+today<-Sys.Date()  # todays date
+now <- Sys.time() # current time
+
+str(today)
+str(now)
+
+my_date <- as.Date("2010-15-05",format="%Y-%d-%m")  # Default format %Y-%m-%d
+str(my_date)
+
+#Arithmetics
+
+New_date2 <- as.Date("2005-06-06")
+
+my_date-New_date2 # time difference from two dates
+
+unclass(today) # today value stored in R it is no of days from 1 jan 1970
+
+unclass(now) # current time value stored in R
+
+
+```
+
+* advanced date packages are lubridate, zoo, xts
+
+* as.date formats:
+  - %Y: 4-digit year (1982)
+  - %y: 2-digit year (82)
+  - %m: 2-digit month (01)
+  - %d: 2-digit day of the month (13)
+  - %A: weekday (Wednesday)
+  - %a: abbreviated weekday (Wed)
+  - %B: month (January)
+  - %b: abbreviated month (Jan)
+
+* as.POSIXct formats:
+  - %H: hours as a decimal number (00-23)
+  - %I: hours as a decimal number (01-12)
+  - %M: minutes as a decimal number
+  - %S: seconds as a decimal number
+  - %T: shorthand notation for the typical format %H:%M:%S
+  - %p: AM/PM indicator
+
+```{r}
+x <- list(2006, 2004, 2020, 2002)
+for(i in 1:length(x)) {
+    if(x[[i]] %% 4 != 0) next
+  print(paste(x[[i]], "is a leap year"))
+}
+```
+
+
