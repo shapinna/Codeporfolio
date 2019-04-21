@@ -1,0 +1,230 @@
+---
+title: "Exploratory Data Analysis"
+author: "Shanmukh"
+date: "April 20, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# ESTIMATES OF LOCATION
+ - Mean
+    - The sum of all values divided by the number of values.
+ - Weighted mean
+    - The sum of all values times a weight divided by the sum of the weights.
+ - Median
+    - The value such that one-half of the data lies above and below.
+ - Weighted median
+    - The value such that one-half of the sum of the weights lies above and below the sorted data.
+ - Trimmed mean
+    - The average of all values after dropping a fixed number of extreme values.
+
+# VARIABILITY METRICS
+
+- Variance
+  - The sum of squared deviations from the mean divided by n - 1 where n is the number of data values.
+- Standard deviation
+  - The square root of the variance.
+
+- Mean absolute deviation
+  - The mean of the absolute value of the deviations from the mean.
+  
+- Median absolute deviation from the median
+  - The median of the absolute value of the deviations from the median.
+
+- Range
+  - The difference between the largest and the smallest value in a data set.
+
+- Interquartile range
+  - The difference between the 75th percentile and the 25th percentile.
+  
+# EXPLORING THE DISTRIBUTION
+
+- Boxplot
+  - A plot introduced by Tukey as a quick way to visualize the distribution of data.
+
+- Frequency table
+  - A tally of the count of numeric data values that fall into a set of intervals (bins).
+
+- Histogram
+  - A plot of the frequency table with the bins on the x-axis and the count (or proportion) on the y-axis.
+
+- Density plot
+  - A smoothed version of the histogram, often based on a kernel density estimate.
+
+#  CORRELATION
+
+- Correlation coefficient
+  - A metric that measures the extent to which numeric variables are associated with one another (ranges from -1 to +1).
+
+- Correlation matrix
+  - A table where the variables are shown on both rows and columns, and the cell values are the correlations between the variables.
+
+- Scatterplot
+  - A plot in which the x-axis is the value of one variable, and the y-axis the value of another.
+  
+  
+  
+sd() -- Standard deviation
+var() -- Variance
+IQR() -- interquartile range  75 percentile - 25 percentime points
+range()
+diff(range())  -- difference in max and min value
+mad() -- median absolute deivation from the median
+
+```{r}
+library(readr)
+USEPAdata_017 <- read_csv("C:/Main/Shanmukh/MS/Indiana university/applied data science/data/USEPAdata 017.csv")
+
+ozone <- USEPAdata_017
+
+mean(ozone$`Valid Day Count`,na.rm = TRUE)
+
+median(ozone$`Valid Day Count`,na.rm = TRUE)
+
+sd(ozone$`Valid Day Count`,na.rm = TRUE)
+
+var(ozone$`Valid Day Count`,na.rm = TRUE)
+
+IQR(ozone$`Valid Day Count`,na.rm = TRUE)
+
+range(ozone$`Valid Day Count`,na.rm = TRUE)
+
+diff(range(ozone$`Valid Day Count`,na.rm = TRUE))
+
+```
+
+```{r}
+names(ozone) <- make.names(names(ozone))
+View(ozone)
+nrow(ozone)
+ncol(ozone)
+str(ozone)
+
+```
+
+```{r}
+head(ozone[, c(6:7, 10)])
+tail(ozone[, c(6:7, 10)])
+table(ozone$Date.of.Last.Change)
+
+library(dplyr)
+
+select(ozone, State.Name) %>% unique %>% nrow
+
+unique(ozone$State.Name)
+
+
+```
+```{r}
+summary(ozone$Sample.Duration)
+```
+
+```{r}
+library(nycflights13)
+
+View(flights)
+
+head(flights)
+
+str(flights)
+
+table(flights$dep_delay)
+
+mean(flights$dep_delay,na.rm = TRUE)
+
+```
+
+```{r}
+library(readr)
+income <- read_csv("C:/Users/Amirtha/Downloads/income.csv")
+
+mean(income$M_weekly, na.rm = TRUE)
+mean(income$M_weekly,na.rm = TRUE,trim=0.1)
+
+median(income$M_weekly,na.rm = TRUE)
+
+
+```
+```{r}
+sd(income$F_workers)
+IQR(income$F_workers)
+mad(income$F_workers)
+```
+```{r}
+library(dplyr)
+
+income2<-mutate(income,dff=income$M_weekly-income$F_weekly)
+
+View(income2)
+
+income2 %>% glimpse()
+
+sddff<-sd(income2$dff,na.rm = TRUE)
+
+round(sddff)
+
+```
+na.rm=TRUE ignores NA values before calculating
+```{r}
+sd(c(1,5,6,7)) # calculates standard deviation for a vector
+
+help(sd)# provides documentation on sd function
+
+args(sd)  # provides arguments for sd function
+
+
+
+```
+
+The mean() function computes the arithmetic mean.
+
+arguments:X, na.rm= FALSE,trim =0
+
+default value exists for na.rm and trim hence not mandatory
+
+trim denotes trimming the start and end values 0.1 denotes 10% trim in starting and ending.
+
+```{r}
+linkedin <- c(16, 9, 13, 5, 2, 17, 14)
+facebook <- c(17, 7, 5, 16, 8, 13, 14)
+
+# Calculate average number of views
+avg_li <- mean(linkedin)
+avg_fb <- mean(facebook)
+
+
+# Inspect avg_li and avg_fb
+print(avg_li)
+print(avg_fb)
+
+
+# The linkedin and facebook vectors have already been created for you
+linkedin <- c(16, 9, 13, 5, 2, 17, 14)
+facebook <- c(17, 7, 5, 16, 8, 13, 14)
+
+# Calculate the mean of the sum
+avg_sum<- mean(linkedin+facebook)
+
+# Calculate the trimmed mean of the sum
+avg_sum_trimmed <- mean(linkedin+facebook,trim=0.2)
+
+# Inspect both new variables
+print(avg_sum)
+print(avg_sum_trimmed)
+
+# The linkedin and facebook vectors have already been created for you
+linkedin <- c(16, 9, 13, 5, NA, 17, 14)
+facebook <- c(17, NA, 5, 16, 8, 13, 14)
+
+# Basic average of linkedin
+mean(linkedin)
+
+# Advanced average of linkedin
+mean(linkedin,na.rm=TRUE)
+
+
+
+```

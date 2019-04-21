@@ -93,3 +93,59 @@ plot(Gas~Temp,data=whiteside)
 abline(linear_model,lty=2)
 ```
 
+```{r}
+str(mtcars)
+
+
+wss <- function(k) {
+  kmeans(mtcars, k, nstart = 25 )$tot.withinss
+}
+
+# Compute and plot wss for k = 1 to k = 15
+k.values <- 1:31
+
+# extract wss for 2-15 clusters
+wss_values <- map_dbl(k.values, wss)
+
+plot(k.values, wss_values,
+       type="b", pch = 19, frame = FALSE, 
+       xlab="Number of clusters K",
+       ylab="Total within-clusters sum of squares")
+
+
+```
+```{r}
+library(purrr)
+
+tot_withinss1 <- map_dbl(1:31,function(k){
+  model <- kmeans(mtcars,centers=k)
+  model$tot.withinss
+})
+elbow_df <-data.frame(
+  k=1:31,
+  tot_withinss1=tot_withinss1
+)
+
+print(elbow_df)
+
+
+```
+
+```{r}
+str(cars)
+
+cars_mdl <- lm(dist~speed,data=cars)
+
+summary(cars_mdl)
+library(car)
+
+qqPlot(cars_mdl)
+
+
+qqnorm(resid(cars_mdl), main = "Normal Q-Q Plot, cars_mdl", col = "darkgrey")
+qqline(resid(cars_mdl), col = "dodgerblue", lwd = 2)
+
+
+shapiro.test(resid(cars_mdl))
+
+```

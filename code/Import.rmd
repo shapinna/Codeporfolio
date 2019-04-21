@@ -2,9 +2,123 @@
 title: "Data Import R cheatsheet"
 author: "Shanmukh"
 date: "April 10, 2019"
-output: html_document
+output:
+  html_document:
+    toc: TRUE
+    toc_depth: 3
+    df_print: paged
 ---
+
+reference: 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+# Read Tabular Data
+
+Install readr
+
+```{r, echo=FALSE}
+library(readr)
+```
+
+
+- read_* functions shares the common arguments:
+
+syntax:
+
+read_*(file, col_names = TRUE, col_types = NULL, locale = default_locale(), na = c("", "NA"),
+quoted_na = TRUE, comment = "", trim_ws = TRUE, skip = 0, n_max = Inf, guess_max = min(1000,
+n_max), progress = interactive())
+
+
+### read_csv
+
+- loads a comma separated file.
+
+```{r, message=FALSE}
+billboard <- read_csv("https://raw.githubusercontent.com/shapinna/Codeporfolio/master/Data/billboard.csv", col_names=TRUE)
+
+head(billboard)[,c(1:5)]
+
+```
+
+### read_delim
+
+- loads file with any delimiter
+- syntax: read_delim("file.txt", delim = "|")
+
+```{r,message=FALSE}
+
+
+billb <- read_delim("https://raw.githubusercontent.com/shapinna/Codeporfolio/master/Data/billboard.csv", col_names = TRUE,delim = ",")
+
+head(billb)[,c(1:5)]
+```
+
+
+### read.table
+
+- read.table() loads text file.
+
+```{r}
+
+students <- read.table("http://users.stat.ufl.edu/~aa/smss/data/Students.dat")
+
+head(students)[,c(1:9)]
+
+```
+
+
+### Other arguments
+
+* Skip lines
+    - Skips lines while loading
+    - syntax: read_csv(f, skip = 1)
+    
+* No header
+    - Loads file without headers
+    - syntax: read_csv(f, col_names = FALSE)
+
+* Provide header
+    - Loads file with given headers
+    - syntax: read_csv(f, col_names = c("x", "y", "z"))
+    
+
+
+
+# Read Non-Tabular Data
+
+### Read a file into a single string
+
+- read_file(file, locale = default_locale())
+
+
+```{r}
+f <- read_file("https://raw.githubusercontent.com/shapinna/Codeporfolio/master/Data/scraping.txt")
+
+f
+
+```
+
+### Read each line into its own string
+
+- read_lines(file, skip = 0, n_max = -1L, na = character(),locale = default_locale(), progress = interactive())
+
+
+```{r}
+text <- read_lines("https://raw.githubusercontent.com/shapinna/Codeporfolio/master/Data/scraping.txt")
+text[1:3] # view first three lines of the file
+```
+
+
+
+
+*Referred from Rstudio cheatsheet*
+[Link](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+
+
+
+
+
