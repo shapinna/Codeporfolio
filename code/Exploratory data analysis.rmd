@@ -74,9 +74,15 @@ range()
 diff(range())  -- difference in max and min value
 mad() -- median absolute deivation from the median
 
-```{r}
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
 library(readr)
-USEPAdata_017 <- read_csv("C:/Main/Shanmukh/MS/Indiana university/applied data science/data/USEPAdata 017.csv")
+```
+
+
+
+```{r, message=FALSE, warning=FALSE}
+
+USEPAdata_017 <- read_csv("https://raw.githubusercontent.com/shapinna/Codeporfolio/master/Data/USEPAdata%20017.csv")
 
 ozone <- USEPAdata_017
 
