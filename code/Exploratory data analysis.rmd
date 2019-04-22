@@ -21,6 +21,7 @@ library(MASS)
 library(corrplot)
 library(DescTools)
 library(frequency)
+library(matrixStats)
 ```
 
 
@@ -58,6 +59,7 @@ mean(USEPAdata_017$`Valid Day Count`,na.rm = TRUE) # na.rm ignores NA values
     - The sum of all values times a weight divided by the sum of the weights.
     
 ```{r}
+weighted.mean(mtcars$mpg,w=mtcars$wt)
 
 ```
     
@@ -69,8 +71,13 @@ mean(USEPAdata_017$`Valid Day Count`,na.rm = TRUE) # na.rm ignores NA values
 median(USEPAdata_017$`Valid Day Count`,na.rm = TRUE)# na.rm ignores NA values
 ```
     
- - Weighted median
+### Weighted median
     - The value such that one-half of the sum of the weights lies above and below the sorted data.
+    
+```{r}
+weightedMedian(mtcars$mpg,w=mtcars$wt)
+```
+    
     
 ### Trimmed mean
     - The average of all values after dropping a fixed number of extreme values.
@@ -217,7 +224,6 @@ title("Standard scatterplot")
 
 **Referred from oreilly.com**
 [Link](https://www.oreilly.com/library/view/practical-statistics-for/9781491952955/ch01.html)
-
 
 
 
