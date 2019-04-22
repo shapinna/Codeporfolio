@@ -12,7 +12,7 @@ output:
 ```{r echo=FALSE, warning=FALSE, message = FALSE}
 library(stringr) # to manipulate strings
 library(htmlwidgets) # to activate html widgets
-library(tidyverse)# to tidy the data
+library(tidyverse)# for data wrangling
 library(readr)# to load files
 ```
 
@@ -53,8 +53,7 @@ tidyr package of R is used to organizes data into tidy format
 
 tidyr also provides separate() and extract() functions which makes it easier to pull apart a column that represents multiple variables. The complement to separate() is unite().
 
-*Referred from tidyr overview*
-[Link](https://tidyr.tidyverse.org/)
+
 
 **messy dataframe**
 ```{r echo=FALSE, warning=FALSE, message = FALSE}
@@ -226,3 +225,5 @@ dplyr::summarize(new_who_group,count=sum(Cases))  # summarizes the data by metho
 
 ```
 
+**Referred from tidyr overview**
+[Link](https://tidyr.tidyverse.org/)
