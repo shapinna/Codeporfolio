@@ -377,7 +377,7 @@ sum_abs(-2,3)
 - library() which loads packages, i.e. attaches them to the search list on your R workspace.
 
 ```{r}
-library(MASS)
+library(MASS)# For built in dataset
 # Check out the currently attached packages again
 search()
 ```

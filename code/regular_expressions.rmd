@@ -9,12 +9,12 @@ output:
     df_print: paged
 
 ---
-Install library `strings`
+Install library
 ```{r echo=FALSE, warning=FALSE, message = FALSE}
-library(stringr)
-library(htmlwidgets)
-library(tidyverse)
-library(readr)
+library(stringr)# for string manipulation
+library(htmlwidgets) # for html widgets
+library(tidyverse) # for data wrangling
+library(readr) # for loading the data
 ```
 
 # Regular expressions

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Install readr
 
 ```{r, echo=FALSE}
-library(readr)
+library(readr)# to load the files
 ```
 
 

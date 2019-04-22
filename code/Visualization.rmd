@@ -17,11 +17,11 @@ knitr::opts_chunk$set(echo = TRUE)
 # Base R Visualizations
 
 ```{r,warning=FALSE,echo=FALSE,message=FALSE}
-library(MASS)
-library(dplyr)
-library(maps)
-library(aplpack)
-library(corrplot)
+library(MASS) # for acessing built in dataset
+library(dplyr) # for data wrangling
+library(maps)  # for accessing map_data
+library(aplpack)  # for generating bagplot
+library(corrplot) # for accessing correlation functions
 ```
 
 Dataset: mtcars
@@ -240,7 +240,7 @@ legend("topright", pch =c(17,1),
 - call the low-level graphics function axis() to create the axes.
 
 ```{r}
-library(MASS)
+library(MASS) # to access built in dataset
 
 # Create a boxplot of sugars by shelf value, without axes
 boxplot(sugars~shelf,data=UScereal,axes=FALSE)
@@ -417,7 +417,7 @@ position=<POSITION>)+
 
 ```{r,echo=FALSE,message=FALSE,warning=FALSE}
 
-library(ggplot2)
+library(ggplot2) # for plots through ggplot functions
 str(mpg)
 
 table(mpg$class)

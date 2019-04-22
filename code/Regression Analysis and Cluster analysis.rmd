@@ -17,8 +17,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r,echo=FALSE,warning=FALSE,message=FALSE}
 
-library(car)
-library(purrr)
+library(car) # test for heteroscedasticity
+library(purrr) # for cluster analysis
 ```
 
 

@@ -10,10 +10,10 @@ output:
 ---
 
 ```{r echo=FALSE, warning=FALSE, message = FALSE}
-library(stringr)
-library(htmlwidgets)
-library(tidyverse)
-library(readr)
+library(stringr) # to manipulate strings
+library(htmlwidgets) # to activate html widgets
+library(tidyverse)# to tidy the data
+library(readr)# to load files
 ```
 
 # Tibble

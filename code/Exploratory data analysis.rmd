@@ -16,12 +16,12 @@ knitr::opts_chunk$set(echo = TRUE)
 # ESTIMATES OF LOCATION
 
 ```{r,echo=FALSE,warning=FALSE,message=FALSE}
-library(readr)
-library(MASS)
-library(corrplot)
-library(DescTools)
-library(frequency)
-library(matrixStats)
+library(readr) # to load the files
+library(MASS)  # to access built in data set
+library(corrplot)  # to access correlation functions
+library(DescTools)  # to access MeanAD function Mean absolute deviation
+library(frequency)  # for generating frequency table
+library(matrixStats) # for calcuating weightedMedian
 ```
 
 
