@@ -199,6 +199,7 @@ $(document).ready(function () {
 <li><a href="#mean">Mean</a></li>
 <li><a href="#weighted-mean">Weighted mean</a></li>
 <li><a href="#median">Median</a></li>
+<li><a href="#weighted-median">Weighted median</a></li>
 <li><a href="#trimmed-mean">Trimmed mean</a></li>
 </ul></li>
 <li><a href="#variability-metrics">VARIABILITY METRICS</a><ul>
@@ -430,18 +431,20 @@ $(document).ready(function () {
 <div id="weighted-mean" class="section level3">
 <h3>Weighted mean</h3>
 <pre><code>- The sum of all values times a weight divided by the sum of the weights.</code></pre>
+<pre class="r"><code>weighted.mean(mtcars$mpg,w=mtcars$wt)</code></pre>
+<pre><code>## [1] 18.54993</code></pre>
 </div>
 <div id="median" class="section level3">
 <h3>Median</h3>
 <pre><code>- The value such that one-half of the data lies above and below.</code></pre>
 <pre class="r"><code>median(USEPAdata_017$`Valid Day Count`,na.rm = TRUE)# na.rm ignores NA values</code></pre>
 <pre><code>## [1] 113</code></pre>
-<ul>
-<li>Weighted median
-<ul>
-<li>The value such that one-half of the sum of the weights lies above and below the sorted data.</li>
-</ul></li>
-</ul>
+</div>
+<div id="weighted-median" class="section level3">
+<h3>Weighted median</h3>
+<pre><code>- The value such that one-half of the sum of the weights lies above and below the sorted data.</code></pre>
+<pre class="r"><code>weightedMedian(mtcars$mpg,w=mtcars$wt)</code></pre>
+<pre><code>## [1] 17.89148</code></pre>
 </div>
 <div id="trimmed-mean" class="section level3">
 <h3>Trimmed mean</h3>
